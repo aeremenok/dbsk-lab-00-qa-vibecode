@@ -1,33 +1,9 @@
-export interface OrderItem {
-  productId: string;
-  price: number;
-  quantity: number;
-}
-
-export interface PromoCode {
-  code: string;
-  type: 'fixed' | 'percent';
-  value: number;
-  expiresAt: Date;
-}
-
-export interface DiscountResult {
-  originalTotal: number;
-  discountAmount: number;
-  finalTotal: number;
-  appliedRule: 'percentage' | 'promo' | 'none';
-}
-
-export function calculateDiscount(
-  items: OrderItem[],
-  promo: PromoCode | null,
-  now: Date
-): DiscountResult {
+export function calculateDiscount(items: any, promo: any, now: any): any {
   if (items.length === 0) {
     throw new Error('Cart is empty');
   }
 
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = items.reduce((sum: any, item: any) => sum + item.price * item.quantity, 0);
 
   if (total < 0) {
     throw new Error('Invalid order total');
@@ -49,7 +25,7 @@ export function calculateDiscount(
 
   const discountAmount = percentDiscount + promoDiscount;
 
-  let appliedRule: 'percentage' | 'promo' | 'none' = 'none';
+  let appliedRule = 'none';
   if (promoDiscount > 0) {
     appliedRule = 'promo';
   } else if (percentDiscount > 0) {
